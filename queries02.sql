@@ -1,0 +1,43 @@
+-- SELECT 
+--   STRFTIME(
+--   '%Y',
+--   SUBSTR(DateStrikingOff, 7, 4) || '-' || SUBSTR(DateStrikingOff, 4, 2) || '-' || SUBSTR(DateStrikingOff, 1, 2)) AS Year,
+--   COUNT(*) AS StruckOffCount
+-- FROM address
+-- WHERE DateStrikingOff IS NOT NULL
+-- GROUP BY Year
+-- ORDER BY StruckOffCount DESC
+-- LIMIT 5
+-- SELECT 
+--   MunicipalityNL,
+--   COUNT(DISTINCT EntityNumber) AS ActiveCompanyCount
+-- FROM address a
+-- JOIN enterprise e ON a.EntityNumber = e.EnterpriseNumber
+-- WHERE e.Status = 'AC'
+-- GROUP BY MunicipalityNL
+-- ORDER BY ActiveCompanyCount DESC
+-- LIMIT 10
+
+-- SELECT 
+--   Year,
+--   NaceCode,
+--   SectorDescription,
+--   CompanyCount,
+--   CompanyCount - LAG(CompanyCount) OVER (PARTITION BY NaceCode ORDER BY Year) AS YoYChange
+-- FROM (
+--   SELECT 
+--     STRFTIME('%Y',  SUBSTR(StartDate, 7, 4) || '-' || SUBSTR(StartDate, 4, 2) || '-' || SUBSTR(StartDate, 1, 2)) AS Year,
+--     a.NaceCode,
+--     c.Description AS SectorDescription,
+--     COUNT(*) AS CompanyCount
+--   FROM enterprise e
+--   JOIN activity a ON e.EnterpriseNumber = a.EntityNumber
+--   LEFT JOIN code c 
+--     ON CAST(a.NaceCode AS TEXT) = c.Code 
+--     AND c.Category = 'NACE' 
+--     AND c.Language = 'EN'
+--   WHERE e.StartDate IS NOT NULL
+--   GROUP BY Year, a.NaceCode, c.Description
+-- )
+-- ORDER BY YoYChange DESC
+-- LIMIT 10;

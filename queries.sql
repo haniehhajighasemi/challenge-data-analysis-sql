@@ -1,0 +1,24 @@
+-- SELECT DISTINCT ActivityGroup, Classification
+-- FROM activity
+-- GROUP BY Classification
+-- ORDER BY ActivityGroup ASE
+
+-- SELECT DISTINCT 
+-- 					STRFTIME('%Y',  SUBSTR(StartDate, 7, 4) || '-' || SUBSTR(StartDate, 4, 2) || '-' || SUBSTR(StartDate, 1, 2)
+-- 					) AS Year,
+-- 					EnterpriseNumber
+-- FROM branch
+-- GROUP BY Year;
+-- SELECT 
+--   e.JuridicalForm,
+--   c.Description AS JuridicalFormDescription,
+--   COUNT(*) AS CompanyCount,
+--   ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(), 2) AS Percentage
+-- FROM enterprise e
+-- LEFT JOIN code c 
+--   ON CAST(e.JuridicalForm AS TEXT) = c.Code
+--      AND c.Category = 'JURIDICAL_FORM'
+--      AND c.Language = 'EN'
+-- GROUP BY e.JuridicalForm, c.Description
+-- ORDER BY CompanyCount DESC;
+
